@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ZDropDwon Example</title>
+</head>
+
+<body>
+    <form>
+        <div id='containerDropDown'>
+            <input type="text" id='exampleZDD' />
+        </div><br/>
+        <div>
+            <button id="ClearSelected">Clear Selected</button>
+        </div><br/>
+        <div>
+            <button id="getSelected">get Selected</button>
+            <p id="selectedDataJson"></p>
+        </div><br/>
+        <div>
+            <label>display data: </label><input type="text" id="displayData" />
+            <label>value data: </label><input type="text" id="valueData" />
+            <button id="setSelected">set Selected</button>
+        </div><br/>
+    </form>
+    <!-- <form>
+        <div id='containerDropDown1'>
+            <input type="text" id='exampleZDD1' />
+        </div><br/>
+        <div>
+            <button id="ClearSelected1">Clear Selected1</button>
+        </div><br/>
+        <div>
+            <button id="getSelected1">get Selected1</button>
+            <p id="selectedDataJson1"></p>
+        </div><br/>
+        <div>
+            <label>display data: </label><input type="text" id="displayData1" />
+            <label>value data: </label><input type="text" id="valueData1" />
+            <button id="setSelected1">set Selected1</button>
+        </div><br/>
+    </form>-->
+    <script src='zdropdown.js'></script>
+    <script>
+        window.onload = function () {
+            var drp = zdropdown('exampleZDD', {
+                displayPropertName: 'Name',
+                valuePropertyName: 'Id',
+                remoteDataOptions: { dataUrl: '/zdd', NoOfDataPerRequest: 2, isOneTimeData: false },
+                // dataCollection: [{ "Id": "1", "Name": "scdef" },{ "Id": "2", "Name": "rtergdf" }, { "Id": "3", "Name": "wrfdsf" }],
+                onSelectedChange: function (e) {
+                    setTimeout(function () { document.getElementById("getSelected").click(); }, 1000);
+                }
+            });
+
+
+            document.getElementById("ClearSelected").addEventListener("click", function (e) {
+                e.preventDefault();
+                drp.clearSelectedData();
+            });
+
+            document.getElementById("getSelected").addEventListener("click", function (e) {
+                e.preventDefault();
+                document.getElementById("selectedDataJson").innerHTML = JSON.stringify(drp.getSelectedData());
+            });
+
+            document.getElementById("setSelected").addEventListener("click", function (e) {
+                e.preventDefault();
+                drp.setSelectedData(drp.getSelectedDataObject(document.getElementById("displayData").value, document.getElementById("valueData").value));
+                document.getElementById("displayData").value = "";
+                document.getElementById("valueData").value = "";
+            });
+
+
+            // var drp1 = zdropdown('exampleZDD1', {
+            //     dataCollection: ["sgewrt", "twertwet", "ertwert", "fsdfs", "dfsgsfs", "jkldjer", "uysauifha", "hasifb", "sdyfguw", "skdhfgeuib", "kjhfskjf"],
+            //     onSelectedChange: function (e) {
+            //         setTimeout(function () { document.getElementById("getSelected1").click(); }, 1000);
+            //     }
+            // });
+
+
+            // document.getElementById("ClearSelected1").addEventListener("click", function (e) {
+            //     e.preventDefault();
+            //     drp1.clearSelectedData();
+            // });
+
+            // document.getElementById("getSelected1").addEventListener("click", function (e) {
+            //     e.preventDefault();
+            //     document.getElementById("selectedDataJson1").innerHTML = JSON.stringify(drp1.getSelectedData());
+            // });
+
+            // document.getElementById("setSelected1").addEventListener("click", function (e) {
+            //     e.preventDefault();
+            //     drp1.setSelectedData(drp1.getSelectedDataObject(document.getElementById("displayData1").value, document.getElementById("valueData1").value));
+            //     document.getElementById("displayData1").value = "";
+            //     document.getElementById("valueData1").value = "";
+            // });
+
+
+        };
+    </script>
+</body>
+
+</html>
